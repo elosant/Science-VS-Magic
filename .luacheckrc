@@ -1,1 +1,4 @@
--- Fill in later.
+std = {
+	globals = {"game", "wait", "delay", "spawn"},
+	read_globals = {"Enum"}
+}

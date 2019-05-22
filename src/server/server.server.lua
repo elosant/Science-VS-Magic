@@ -6,7 +6,7 @@ local runService = game:GetService("RunService")
 local systems = {}
 
 -- Handler require.
-for _, handlerModule in pairs(serverStorage.Server.handlers) do
+for _, handlerModule in pairs(serverStorage.Server.handlers:GetChildren()) do
 	require(handlerModule)
 end
 

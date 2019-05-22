@@ -34,6 +34,7 @@ return {
 	replicatedFields = {
 		FinancialData = true,
 		KillData = true,
+		SessionsData = true,
 		PurchaseData = true
 	}
 }

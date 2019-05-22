@@ -4,22 +4,22 @@ local runService = game:GetService("RunService")
 
 -- Player
 local player = playersService.LocalPlayer
-local starterPlayer = player:WaitForChild("StarterPlayer")
+local playerScripts = player:WaitForChild("PlayerScripts")
 
 -- Systems
 local systems = {}
 
 -- Handler require.
-for _, handlerModule in pairs(starterPlayer.client.handlers) do
+for _, handlerModule in pairs(playerScripts.client.handlers:GetChildren()) do
 	require(handlerModule)
 end
 
 -- System require.
-for _, systemModule in pairs(starterPlayer.client.systems:GetChildren()) do
+for _, systemModule in pairs(playerScripts.client.systems:GetChildren()) do
 	systems[systemModule.Name] = require(systemModule)
 end
 
-runService:BindToRenderStep("systemStep", Enum.RenderPriority.First, function(deltaTime)
+runService:BindToRenderStep("systemStep", Enum.RenderPriority.First.Value, function(deltaTime)
 	debug.profilebegin("systemStep")
 
 	for systemName, system in pairs(systems) do
