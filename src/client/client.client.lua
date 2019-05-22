@@ -3,19 +3,19 @@ local playersService = game:GetService("Players")
 local runService = game:GetService("RunService")
 
 -- Player
-local player = PlayersService.LocalPlayer
+local player = playersService.LocalPlayer
 local starterPlayer = player:WaitForChild("StarterPlayer")
 
 -- Systems
 local systems = {}
 
 -- Handler require.
-for _, handlerModule in pairs(starterPlayer.Client.handlers) do
+for _, handlerModule in pairs(starterPlayer.client.handlers) do
 	require(handlerModule)
 end
 
 -- System require.
-for _, systemModule in pairs(starterPlayer.Client.systems:GetChildren()) do
+for _, systemModule in pairs(starterPlayer.client.systems:GetChildren()) do
 	systems[systemModule.Name] = require(systemModule)
 end
 
