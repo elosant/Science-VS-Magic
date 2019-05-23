@@ -1,31 +1,49 @@
 -- Services
 local serverStorage = game:GetService("ServerStorage")
+local replicatedStorage = game:GetService("ReplicatedStorage")
 local playersService = game:GetService("Players")
+local runService = game:GetService("RunService")
 
 local server = serverStorage.server
 
 -- Lib
-local playerDataLib = require(server.lib.playerDataLib)
+local lib = server.lib
+local playerDataLib = require(lib.playerDataLib)
 
 -- Shared Lib
-local networkLib = require(server.lib.networkLib)
-local signalLib = require(server.lib.signalLib)
+local sharedLib = replicatedStorage.shared.lib
+local networkLib = require(sharedLib.networkLib)
+local signalLib = require(sharedLib.signalLib)
 
-playersService.PlayerAdded:Connect(function(player)
-	playerDataLib.initPlayerData()
+local quickTest = false -- Function will not be bound to server shutdown if true, reduces close speed.
+
+local function onPlayerAdded(player)
+	playerDataLib.initPlayerData(player)
 
 	signalLib.dispatchAsync("playerDataLoaded", player)
 	networkLib.fireToClient(player, "playerDataLoaded")
-end)
+end
 
-playersService.PlayerRemoving:Connect(function(player)
+local function onPlayerRemoving(player)
 	playerDataLib.save(player)
 	playerDataLib.destroy(player)
-end)
+end
 
-game:BindToClose(function()
-	for _, player in pairs(playersService:GetChildren()) do
-		playerDataLib.save(player)
-		playerDataLib.destroy(player)
-	end
-end)
+-- In case PlayerAdded wasn't invoked for the first player.
+for _, player in pairs(playersService:GetPlayers()) do
+	onPlayerAdded(player)
+end
+
+playersService.PlayerAdded:Connect(onPlayerAdded)
+
+playersService.PlayerRemoving:Connect(onPlayerRemoving)
+
+if runService:IsStudio() and runService:IsRunMode() and not quickTest then
+	game:BindToClose(function()
+		for _, player in pairs(playersService:GetChildren()) do
+			onPlayerRemoving(player)
+		end
+	end)
+end
+
+return nil

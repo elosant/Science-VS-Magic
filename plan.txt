@@ -1,0 +1,7 @@
+todo:
+- movement
+- sword/ranged mechanics
+(lightsaber for sci team, edgy shit for fantasy)
+- show relative performance (avg (from top 10) kd, playtime, etc..)
+- hook to GA
+- build 5 maps

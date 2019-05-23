@@ -4,7 +4,7 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 local dataStoreService = game:GetService("DataStoreService")
 
 -- Lib
-local lib = serverStorage.Server.Lib
+local lib = serverStorage.server.lib
 local dataStoreLib = require(lib.dataStoreLib)
 
 -- Shared Lib
@@ -51,7 +51,7 @@ function playerDataLib.initPlayerData(player)
 	end
 
 	local playerData
-	local playerDataResponse = dataStoreLib.GetData(player.UserId, playerDataStore)
+	local playerDataResponse = dataStoreLib.getData(player.UserId, playerDataStore)
 
 	-- Set player_data to blank schema if the request was a success and payload wasn't found.
 	if playerDataResponse:isSuccess() and not playerDataResponse:getPayload() then
@@ -92,7 +92,7 @@ function playerDataLib.save(player) -- PREVENT SAVING IF ISSUE WITH INITAL DATAS
 		playerDataStore = dataStoreService:GetDataStore("playerDataStore")
 	end
 
-	local playerData = playerDataLib.globalDataContainer[player]
+	local playerData = playerDataContainer.globalDataContainer[player]
 	local playerDataResponse = dataStoreLib.setData(player.UserId, playerDataStore, playerData)
 end
 

@@ -27,11 +27,21 @@
 			"StarterPlayerScripts": {
 				"$className": "StarterPlayerScripts",
 
+				"scripts": {
+					"$className": "Folder",
+					"$path": "src/scripts/client"
+				},
+
 				"client": {
 					"$className": "Folder",
 					"$path": "src/client"
 				}
 			}
+		},
+
+		"ServerScriptService": {
+			"$className": "ServerScriptService",
+			"$path": "src/scripts/server"
 		}
 	}
 }
